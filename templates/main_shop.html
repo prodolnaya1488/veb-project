@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block body %}
+<h1>Доступные товары</h1>
+<p> </p>
+{% if current_user.is_authenticated %}
+<!--    <div class="text-right">-->
+<!--    <button href="/products" type="button" class="btn btn-primary">Добавить товар</button>-->
+<!--    </div>-->
+    <a href="/products" class="btn btn-secondary col-md-3 btn-md-push-4">Добавить товар</a>
+{% endif %}
+<p></p>
+
+{% for item in products %}
+    <div class="bg-light p-5 rounded">
+        <img src="/static/images/book.svg" width="48" height="40" alt="BH">
+        <h1>{{item.title}}</h1>
+        <h2>{{item.author}}</h2>
+        <p class="lead">{{item.content}}</p>
+        <a class="btn btn-lg btn-primary" href="/docs/5.0/components/navbar/" role="button">Просмотреть »</a>
+  </div>
+
+    <div>
+        Продавец - {{item.user.name}}, Дата написания - {{item.created_date}}
+    </div>
+{% if current_user.is_authenticated and current_user == item.user %}
+    <div>
+        <a href="/product/{{ item.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a href="/product_delete/{{ item.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+    </div>
+{% endif %}
+
+{% endfor %}
+{% endblock %}
