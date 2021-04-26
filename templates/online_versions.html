@@ -1,0 +1,29 @@
+{% extends 'base.html'%}
+{% block body %}
+{% if current_user.is_authenticated %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        {% for item in versions %}
+        <div class="col">
+          <div class="card shadow-sm">
+            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: ظفري" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="50%" y="50%" fill="#eceeef" dy=".3em">{{item.title}}</text></svg>
+            <div class="card-body">
+              <p class="card-text">{{item.author}}</p>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <a class="me-3 py-2 text-dark text-decoration-none" href="/files/zamyatin.pdf">Скачать</a>
+                </div>
+                <small class="text-muted">Электронная версия</small>
+              </div>
+            </div>
+          </div>
+        </div>
+  {% endfor %}
+
+{% else %}
+<div class="bg-light p-5 rounded">
+    <h1>Необходимо авторизоваться</h1>
+    <p class="lead">Для того, чтобы скачать электронные версии книг, необходимо быть зарегистрированным в системе.</p>
+    <a class="btn btn-lg btn-primary" href="/login" role="button">Авторизоваться »</a>
+  </div>
+{% endif %}
+{% endblock %}

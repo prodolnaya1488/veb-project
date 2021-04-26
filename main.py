@@ -2,6 +2,7 @@ import datetime
 from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from data.products import Products
+from data.versions import Versions
 from data import db_session
 from data.users import User
 from forms.user import RegisterForm, LoginForm
@@ -28,6 +29,25 @@ def load_user(user_id):
 @app.route('/signup')
 def signup():
     return render_template('signup.html')
+
+
+@app.route('/files/zamyatin.pdf')
+def zam():
+    return render_template('/files/zamyatin.pdf')
+
+
+
+@app.route('/versions')
+def versions():
+    db_session.global_init("db/versions.db")
+    db_sess = db_session.create_session()
+    versions = db_sess.query(Versions).filter(Versions.is_private != True)
+    # if current_user.is_authenticated:
+    #     products = db_sess.query(Products).filter(
+    #         (Products.user == current_user) | (Products.is_private != True))
+    # else:
+    #     products = db_sess.query(Products).filter(Products.is_private != True)
+    return render_template('online_versions.html', versions=versions)
 
 
 @app.route('/shop')
@@ -195,8 +215,13 @@ if __name__ == '__main__':
 
     # products = Products(title="Преступление и наказание", author='Достоевский', content="Интересный роман",
     #                     user_id=1, is_private=False)
-
+    #
     # db_sess.add(products)
+    # db_sess.commit()
+
+    # versions = Versions(title="Мы", author='Замятин', content="Интересная антиутопия",
+    #                     file_name='/files/zamyatin.pdf',  is_private=False)
+    # db_sess.add(versions)
     # db_sess.commit()
 
 
